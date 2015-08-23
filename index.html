@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Random User Code Test</title>
+    <link href="content/bootstrap.min.css" rel="stylesheet" />
+    <link href="content/site.css" rel="stylesheet" />
+    <script src="scripts/libraries/jquery-1.10.2.min.js"></script>
+    <script src="scripts/libraries/bootstrap.min.js"></script>
+    <script src="scripts/libraries/angular.min.js"></script>      
+</head>
+<body ng-app="user">
+    <script src="scripts/app.js"></script>
+    <div class="container" ng-controller="UserController">
+        <img alt="loading" src="content/images/ajax.gif" class="img-thumbnail" id="loading" ng-show="ajaxLoading" />
+        <div class="page-header">
+            <h1 ng-show="showList">Random Users Demo!</h1>
+            <h1 ng-hide="showList">{{curUser.name.title | titleCase}} {{curUser.name.first | titleCase}} {{curUser.name.last | titleCase}}</h1>
+        </div>
+        <div class="row" ng-show="showList && users.length>0">
+            <a href="#" ng-click="showDetails($index)" class="list-group-item" ng-repeat="u in users | offset: currentPage*usersPerPage | limitTo: usersPerPage">
+                <h4 class="list-group-heading">
+                    {{u.user.name.first | titleCase}} {{u.user.name.last | titleCase}}
+                </h4>
+                <p class="list-group-item-text">
+                     {{u.user.email}}
+                </p>
+            </a>
+        </div>
+        <div class="row" ng-hide="showList">
+          <user-detail></user-detail>
+        </div>
+        <footer class="page-footer">
+            <ul class="pagination" ng-show="pageCount()>1 && showList">
+                <li ng-show="currentPage > 0" ng-click="prevPage()"><a href="#">&laquo;</a></li>
+                <li ng-repeat="n in range()" ng-class="{active: n == currentPage}" ng-click="setPage(n)"><a href="#">{{n+1}}</a></li>
+                <li ng-show="currentPage<(pageCount()-1)" ng-click="nextPage()"><a href="#">&raquo;</a></li>
+            </ul>
+            <br />
+            <button type="button" ng-hide="showList" class="btn btn-primary" ng-click="showList = !showList">&laquo; Back to List</button>
+        </footer>
+        
+    </div>
+</body>
+</html>
